@@ -58,6 +58,27 @@ class CompanyAuthController extends Controller
         ]);
     }
 
+    // プロフィール取得
+    public function profile(Request $request)
+    {
+        return response()->json($request->user('company'));
+    }
+
+    // プロフィール更新
+    public function updateProfile(Request $request)
+    {
+        $validated = $request->validate([
+            'name'        => 'sometimes|string|max:255',
+            'industry'    => 'nullable|string|max:255',
+            'prefecture'  => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $request->user('company')->update($validated);
+
+        return response()->json($request->user('company')->fresh());
+    }
+
     // 企業のログアウト
     public function logout(Request $request)
     {

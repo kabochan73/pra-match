@@ -58,6 +58,28 @@ class UserAuthController extends Controller
         ]);
     }
 
+    // プロフィール取得
+    public function profile(Request $request)
+    {
+        return response()->json($request->user());
+    }
+
+    // プロフィール更新
+    public function updateProfile(Request $request)
+    {
+        $validated = $request->validate([
+            'name'              => 'sometimes|string|max:255',
+            'birth_date'        => 'nullable|date',
+            'gender'            => 'nullable|string|max:50',
+            'prefecture'        => 'nullable|string|max:255',
+            'self_introduction' => 'nullable|string',
+        ]);
+
+        $request->user()->update($validated);
+
+        return response()->json($request->user()->fresh());
+    }
+
     // 求職者のログアウト
     public function logout(Request $request)
     {

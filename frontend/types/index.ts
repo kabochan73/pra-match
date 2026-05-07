@@ -13,6 +13,7 @@ export interface User {
   prefecture?: string
   self_introduction?: string
   avatar?: string
+  updated_at?: string
 }
 
 // 企業
@@ -24,6 +25,7 @@ export interface Company {
   prefecture?: string
   description?: string
   logo?: string
+  updated_at?: string
 }
 
 // 求人投稿

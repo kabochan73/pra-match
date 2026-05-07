@@ -38,12 +38,20 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/job-postings/{jobPosting}/like', [LikeController::class, 'store']);
     Route::get('/likes',                           [LikeController::class, 'index']);
 
+    // プロフィール
+    Route::get('/user/profile',  [UserAuthController::class, 'profile']);
+    Route::put('/user/profile',  [UserAuthController::class, 'updateProfile']);
+
     // マッチング一覧（メッセージできる状態のもの）
     Route::get('/user/matchings', [MatchingController::class, 'userIndex']);
 });
 
 // 企業向けルート
 Route::middleware('auth:company')->group(function () {
+    // プロフィール
+    Route::get('/company/profile', [CompanyAuthController::class, 'profile']);
+    Route::put('/company/profile', [CompanyAuthController::class, 'updateProfile']);
+
     // 自社の求人一覧（非公開含む）
     Route::get('/company/my-job-postings',     [JobPostingController::class, 'myJobPostings']);
 
