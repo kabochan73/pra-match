@@ -19,7 +19,7 @@ Route::prefix('user')->group(function () {
 Route::prefix('company')->group(function () {
     Route::post('/register', [CompanyAuthController::class, 'register']);
     Route::post('/login',    [CompanyAuthController::class, 'login']);
-    Route::post('/logout',   [CompanyAuthController::class, 'logout'])->middleware('auth:sanctum');
+    Route::post('/logout',   [CompanyAuthController::class, 'logout'])->middleware('auth:company');
 });
 
 // 求人（認証不要）
@@ -38,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // 企業向けルート
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:company')->group(function () {
     // 求人CRUD
     Route::post('/job-postings',               [JobPostingController::class, 'store']);
     Route::put('/job-postings/{jobPosting}',   [JobPostingController::class, 'update']);
