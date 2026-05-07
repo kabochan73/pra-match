@@ -47,6 +47,8 @@ export interface Like {
   user_id: number
   job_posting_id: number
   job_posting?: JobPosting
+  user?: User            // 企業側のいいね一覧で使用
+  matching?: Matching    // 企業側のいいね一覧で使用（マッチング状況の確認・操作に使う）
   expires_at: string     // 企業が1週間以内に返答しないと期限切れになる
   created_at: string
 }

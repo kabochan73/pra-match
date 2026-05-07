@@ -53,7 +53,7 @@ class LikeController extends Controller
         return response()->json($likes);
     }
 
-    // 企業が自社求人へのいいね一覧を取得（求人ごとにグループ）
+    // 企業が自社求人へのいいね一覧を取得（マッチング情報も付与）
     public function companyIndex(Request $request, JobPosting $jobPosting)
     {
         if ($jobPosting->company_id !== $request->user('company')->id) {
@@ -64,6 +64,17 @@ class LikeController extends Controller
             ->where('job_posting_id', $jobPosting->id)
             ->latest()
             ->get();
+
+        // 各いいねに対応するマッチングをまとめて取得してN+1を回避
+        $matchings = Matching::where('job_posting_id', $jobPosting->id)
+            ->whereIn('user_id', $likes->pluck('user_id'))
+            ->get()
+            ->keyBy('user_id');
+
+        $likes = $likes->map(function ($like) use ($matchings) {
+            $like->matching = $matchings->get($like->user_id);
+            return $like;
+        });
 
         return response()->json($likes);
     }

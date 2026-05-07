@@ -21,7 +21,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/user/jobs', request.url))
   }
   if (token && isCompanyAuthPage) {
-    return NextResponse.redirect(new URL('/company/dashboard', request.url))
+    return NextResponse.redirect(new URL('/company/jobs', request.url))
   }
 
   // 未認証 または 権限の種類が違う場合はログインページへリダイレクト

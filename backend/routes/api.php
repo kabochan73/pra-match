@@ -22,6 +22,12 @@ Route::prefix('company')->group(function () {
     Route::post('/logout',   [CompanyAuthController::class, 'logout'])->middleware('auth:company');
 });
 
+// メッセージ（求職者・企業どちらからも送受信できるため両ガードを許可）
+Route::middleware('auth:sanctum,company')->group(function () {
+    Route::get('/matchings/{matching}/messages',  [MessageController::class, 'index']);
+    Route::post('/matchings/{matching}/messages', [MessageController::class, 'store']);
+});
+
 // 求人（認証不要）
 Route::get('/job-postings',      [JobPostingController::class, 'index']);
 Route::get('/job-postings/{jobPosting}', [JobPostingController::class, 'show']);
@@ -32,13 +38,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/job-postings/{jobPosting}/like', [LikeController::class, 'store']);
     Route::get('/likes',                           [LikeController::class, 'index']);
 
-    // メッセージ（求職者側）
-    Route::get('/matchings/{matching}/messages',  [MessageController::class, 'index']);
-    Route::post('/matchings/{matching}/messages', [MessageController::class, 'store']);
+    // マッチング一覧（メッセージできる状態のもの）
+    Route::get('/user/matchings', [MatchingController::class, 'userIndex']);
 });
 
 // 企業向けルート
 Route::middleware('auth:company')->group(function () {
+    // 自社の求人一覧（非公開含む）
+    Route::get('/company/my-job-postings',     [JobPostingController::class, 'myJobPostings']);
+
+    // マッチング一覧（企業側）
+    Route::get('/company/matchings', [MatchingController::class, 'companyIndex']);
+
     // 求人CRUD
     Route::post('/job-postings',               [JobPostingController::class, 'store']);
     Route::put('/job-postings/{jobPosting}',   [JobPostingController::class, 'update']);

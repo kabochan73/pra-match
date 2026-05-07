@@ -26,7 +26,7 @@ export async function companyLogin(_state: FormState, formData: FormData): Promi
     return { error: err instanceof Error ? err.message : 'ログインに失敗しました' }
   }
 
-  redirect('/company/dashboard')
+  redirect('/company/jobs')
 }
 
 // 企業新規登録
@@ -48,7 +48,7 @@ export async function companyRegister(_state: FormState, formData: FormData): Pr
     return { error: err instanceof Error ? err.message : '登録に失敗しました' }
   }
 
-  redirect('/company/dashboard')
+  redirect('/company/jobs')
 }
 
 // 企業ログアウト

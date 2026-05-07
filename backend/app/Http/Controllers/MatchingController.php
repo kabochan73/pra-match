@@ -9,6 +9,32 @@ use Illuminate\Http\Request;
 
 class MatchingController extends Controller
 {
+    // 求職者のマッチング一覧（メッセージできる状態のもの）
+    public function userIndex(Request $request)
+    {
+        $matchings = Matching::with('jobPosting.company')
+            ->where('user_id', $request->user()->id)
+            ->whereIn('status', ['matched', 'casual_interview', 'interview'])
+            ->latest()
+            ->get();
+
+        return response()->json($matchings);
+    }
+
+    // 企業のマッチング一覧（メッセージできる状態のもの）
+    public function companyIndex(Request $request)
+    {
+        $matchings = Matching::with(['jobPosting', 'user'])
+            ->whereHas('jobPosting', function ($q) use ($request) {
+                $q->where('company_id', $request->user('company')->id);
+            })
+            ->whereIn('status', ['matched', 'casual_interview', 'interview'])
+            ->latest()
+            ->get();
+
+        return response()->json($matchings);
+    }
+
     // 企業が求職者にいいねを返す（pending → matched）
     public function companyLike(Request $request, Matching $matching)
     {

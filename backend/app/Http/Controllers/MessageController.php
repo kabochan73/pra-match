@@ -50,7 +50,9 @@ class MessageController extends Controller
     // リクエストしたユーザーがこのマッチングの当事者か確認
     private function authorizeMatching(Request $request, Matching $matching): void
     {
-        $user    = $request->user();
+        $user    = $request->user('sanctum') instanceof \App\Models\User
+                       ? $request->user('sanctum')
+                       : null;
         $company = $request->user('company');
 
         $isUser    = $user    && $matching->user_id        === $user->id;
@@ -61,11 +63,13 @@ class MessageController extends Controller
         }
     }
 
-    // 送信者の種別とIDを返す
+    // 送信者の種別とIDを返す。
+    // auth:sanctum,company では sanctum が先に評価されるため、
+    // $request->user() が Company を返すことがある。instanceof で型を明示的に判定する。
     private function getSender(Request $request): array
     {
-        if ($request->user()) {
-            return ['user', $request->user()->id];
+        if ($request->user('sanctum') instanceof \App\Models\User) {
+            return ['user', $request->user('sanctum')->id];
         }
 
         return ['company', $request->user('company')->id];

@@ -26,6 +26,13 @@ class JobPostingController extends Controller
         return response()->json($jobPosting->load('company'));
     }
 
+    // 自社の求人一覧（非公開含む）
+    public function myJobPostings(Request $request)
+    {
+        $jobPostings = $request->user('company')->jobPostings()->latest()->get();
+        return response()->json($jobPostings);
+    }
+
     // 求人作成（ログイン中の企業のみ）
     public function store(Request $request)
     {
