@@ -1,5 +1,7 @@
 <?php
 
+// 求職者テーブル：アカウント情報とプロフィールを管理する
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +19,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->date('birth_date')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('prefecture')->nullable();
+            $table->text('self_introduction')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
