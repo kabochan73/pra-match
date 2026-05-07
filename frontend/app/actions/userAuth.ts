@@ -28,7 +28,7 @@ export async function userLogin(_state: FormState, formData: FormData): Promise<
     return { error: err instanceof Error ? err.message : 'ログインに失敗しました' }
   }
 
-  redirect('/user/dashboard')
+  redirect('/user/jobs')
 }
 
 // 新規登録処理。登録成功後はそのままログイン状態にする。
@@ -50,7 +50,7 @@ export async function userRegister(_state: FormState, formData: FormData): Promi
     return { error: err instanceof Error ? err.message : '登録に失敗しました' }
   }
 
-  redirect('/user/dashboard')
+  redirect('/user/jobs')
 }
 
 // ログアウト処理。LaravelのAPIでトークンを無効化してからCookieも削除する。

@@ -18,7 +18,7 @@ export function middleware(request: NextRequest) {
 
   // ログイン済みが認証ページにアクセスしてきたらダッシュボードへリダイレクト
   if (token && isUserAuthPage) {
-    return NextResponse.redirect(new URL('/user/dashboard', request.url))
+    return NextResponse.redirect(new URL('/user/jobs', request.url))
   }
   if (token && isCompanyAuthPage) {
     return NextResponse.redirect(new URL('/company/dashboard', request.url))
