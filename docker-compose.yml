@@ -39,8 +39,12 @@ services:
     ports:
       - "3000:3000"
     command: sh -c "npm install && npm run dev"
+    depends_on:
+      - nginx
     environment:
       - WATCHPACK_POLLING=true
+      - API_URL=http://nginx/api
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api
 
 volumes:
   mysql_data:
