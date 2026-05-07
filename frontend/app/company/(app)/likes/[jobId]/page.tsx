@@ -53,8 +53,11 @@ export default async function JobLikesPage({ params }: Props) {
             return (
               <div key={like.id} className="bg-white rounded-xl border border-gray-100 p-4">
                 <div className="flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm flex-shrink-0">
+                  <Link
+                    href={`/company/users/${like.user_id}`}
+                    className="flex items-center gap-3 min-w-0 hover:opacity-80 transition-opacity"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm shrink-0">
                       {like.user?.name?.charAt(0) ?? '?'}
                     </div>
                     <div className="min-w-0">
@@ -65,7 +68,7 @@ export default async function JobLikesPage({ params }: Props) {
                         </span>
                       )}
                     </div>
-                  </div>
+                  </Link>
 
                   {/* pending のときだけ「いいねを返す」ボタンを表示 */}
                   {status === 'pending' && like.matching && (

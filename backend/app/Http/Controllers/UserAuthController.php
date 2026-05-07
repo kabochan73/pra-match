@@ -58,6 +58,22 @@ class UserAuthController extends Controller
         ]);
     }
 
+    // 企業が求職者のプロフィールを閲覧（自社求人にいいねした人のみ）
+    public function showForCompany(Request $request, \App\Models\User $user)
+    {
+        $company = $request->user('company');
+
+        $hasLike = \App\Models\Like::whereHas('jobPosting', function ($q) use ($company) {
+            $q->where('company_id', $company->id);
+        })->where('user_id', $user->id)->exists();
+
+        if (!$hasLike) {
+            return response()->json(['message' => '権限がありません。'], 403);
+        }
+
+        return response()->json($user);
+    }
+
     // プロフィール取得
     public function profile(Request $request)
     {

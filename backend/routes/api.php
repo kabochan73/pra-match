@@ -58,6 +58,9 @@ Route::middleware('auth:company')->group(function () {
     // マッチング一覧（企業側）
     Route::get('/company/matchings', [MatchingController::class, 'companyIndex']);
 
+    // 自社求人にいいねした求職者のプロフィール（いいねした人のみ閲覧可）
+    Route::get('/company/users/{user}', [UserAuthController::class, 'showForCompany']);
+
     // 求人CRUD
     Route::post('/job-postings',               [JobPostingController::class, 'store']);
     Route::put('/job-postings/{jobPosting}',   [JobPostingController::class, 'update']);
