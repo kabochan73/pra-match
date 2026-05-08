@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useActionState } from 'react'
 import Link from 'next/link'
 import { companyRegister } from '@/app/actions/companyAuth'
@@ -7,6 +8,10 @@ import type { FormState } from '@/types'
 
 export default function CompanyRegisterPage() {
   const [state, action, isPending] = useActionState<FormState, FormData>(companyRegister, undefined)
+
+  useEffect(() => {
+    if (state?.redirectTo) window.location.href = state.redirectTo
+  }, [state])
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">

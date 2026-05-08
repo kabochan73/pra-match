@@ -90,5 +90,5 @@ export interface Message {
 // Server Actions のフォーム状態。
 // useActionState の第1引数の型として使う。
 export type FormState =
-  | { error?: string; fieldErrors?: Record<string, string[]> }
+  | { error?: string; fieldErrors?: Record<string, string[]>; redirectTo?: string }
   | undefined

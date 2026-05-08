@@ -33,7 +33,7 @@ export async function apiPost<T>(
   body: unknown,
   token?: string | null, // ログイン済みの場合はトークンを渡す
 ): Promise<T> {
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+  const headers: Record<string, string> = { 'Content-Type': 'application/json', 'Accept': 'application/json' }
   if (token) headers['Authorization'] = `Bearer ${token}`
 
   const res = await fetch(`${getApiBase()}${path}`, {
@@ -49,7 +49,7 @@ export async function apiGet<T>(
   path: string,
   token?: string | null,
 ): Promise<T> {
-  const headers: Record<string, string> = {}
+  const headers: Record<string, string> = { 'Accept': 'application/json' }
   if (token) headers['Authorization'] = `Bearer ${token}`
 
   const res = await fetch(`${getApiBase()}${path}`, { headers })
@@ -62,7 +62,7 @@ export async function apiPut<T>(
   body: unknown,
   token?: string | null,
 ): Promise<T> {
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+  const headers: Record<string, string> = { 'Content-Type': 'application/json', 'Accept': 'application/json' }
   if (token) headers['Authorization'] = `Bearer ${token}`
 
   const res = await fetch(`${getApiBase()}${path}`, {
@@ -78,7 +78,7 @@ export async function apiDelete<T>(
   path: string,
   token?: string | null,
 ): Promise<T> {
-  const headers: Record<string, string> = {}
+  const headers: Record<string, string> = { 'Accept': 'application/json' }
   if (token) headers['Authorization'] = `Bearer ${token}`
 
   const res = await fetch(`${getApiBase()}${path}`, {

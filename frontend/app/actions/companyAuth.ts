@@ -1,9 +1,5 @@
 'use server'
 
-// 企業の認証に関わる Server Actions。
-// 基本的な構造は userAuth.ts と同じ。
-// 違いはAPIパス（/company/...）とセッションのタイプ（'company'）。
-
 import { redirect } from 'next/navigation'
 import { apiPost } from '@/lib/api'
 import { createSession, deleteSession, getToken } from '@/lib/session'
@@ -14,7 +10,6 @@ interface AuthResponse {
   token: string
 }
 
-// 企業ログイン
 export async function companyLogin(_state: FormState, formData: FormData): Promise<FormState> {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
@@ -26,10 +21,9 @@ export async function companyLogin(_state: FormState, formData: FormData): Promi
     return { error: err instanceof Error ? err.message : 'ログインに失敗しました' }
   }
 
-  redirect('/company/jobs')
+  return { redirectTo: '/company/jobs' }
 }
 
-// 企業新規登録
 export async function companyRegister(_state: FormState, formData: FormData): Promise<FormState> {
   const name = formData.get('name') as string
   const email = formData.get('email') as string
@@ -48,10 +42,9 @@ export async function companyRegister(_state: FormState, formData: FormData): Pr
     return { error: err instanceof Error ? err.message : '登録に失敗しました' }
   }
 
-  redirect('/company/jobs')
+  return { redirectTo: '/company/jobs' }
 }
 
-// 企業ログアウト
 export async function companyLogout(): Promise<void> {
   const token = await getToken()
   if (token) {
